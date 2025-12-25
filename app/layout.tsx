@@ -21,9 +21,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={manrope.variable}>
-      <body className="bg-sky text-ink font-sans antialiased">
-        {children}
-      </body>
+<head>
+    <link rel="icon" href="/favicon-light.svg" media="(prefers-color-scheme: light)" />
+    <link rel="icon" href="/favicon-dark.svg" media="(prefers-color-scheme: dark)" />
+</head>
+  <body className="bg-sky text-ink font-sans antialiased">
+    {children}
+  </body>
     </html>
   );
 }
