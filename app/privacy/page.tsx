@@ -21,8 +21,8 @@ export default function PrivacyPage() {
         </p>
         <p className="text-base text-slate dark:text-mist">
           For any questions about data handling or removal, contact us at{" "}
-          <a href="mailto:hello@evident.app" className="text-ink underline dark:text-white">
-            hello@evident.app
+          <a href="mailto:dpo@evident.app" className="text-ink underline dark:text-white">
+            dpo@evident.app
           </a>
           .
         </p>

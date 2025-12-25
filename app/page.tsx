@@ -122,7 +122,7 @@ export default function Page() {
               </Link>
             </div>
             <p className="text-xs font-medium text-slate dark:text-mist">
-              No user-level tracking. Built to stay GDPR-friendly.
+              Built to stay GDPR-friendly.
             </p>
           </div>
         </section>

@@ -26,7 +26,7 @@ export async function POST(request: Request) {
 
     const payload = {
       from,
-      to,
+      to: [to],
       subject: "Evident early access request",
       text
     };
@@ -41,7 +41,20 @@ export async function POST(request: Request) {
     });
 
     if (!resendResponse.ok) {
-      return NextResponse.json({ error: "Unable to send email right now." }, { status: 502 });
+      let detail = "Unknown error";
+      try {
+        const errorJson = await resendResponse.json();
+        detail = typeof errorJson === "string" ? errorJson : JSON.stringify(errorJson);
+      } catch {
+        detail = await resendResponse.text();
+      }
+
+      console.error("Resend email error", resendResponse.status, detail);
+
+      return NextResponse.json(
+        { error: "Unable to send email right now." },
+        { status: resendResponse.status || 502 }
+      );
     }
 
     return NextResponse.json({ ok: true });
