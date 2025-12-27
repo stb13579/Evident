@@ -40,6 +40,8 @@ const AnalyticsContext = createContext<AnalyticsContextValue>({
   isTrackingEnabled: false
 });
 
+const FORCE_CONSENT_BANNER = process.env.NEXT_PUBLIC_FORCE_CONSENT_BANNER === "true";
+
 const GDPR_COUNTRIES = new Set([
   "AT",
   "BE",
@@ -130,7 +132,10 @@ type AnalyticsProviderProps = {
 
 export function AnalyticsProvider({ measurementId, countryCode, children }: AnalyticsProviderProps) {
   const [resolvedCountry] = useState<string | null>(() => countryCode ?? inferCountryFromNavigator());
-  const requiresConsent = useMemo(() => isGdprRegion(resolvedCountry), [resolvedCountry]);
+  const requiresConsent = useMemo(
+    () => FORCE_CONSENT_BANNER || isGdprRegion(resolvedCountry),
+    [resolvedCountry]
+  );
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const searchParamsString = searchParams?.toString();
@@ -139,7 +144,7 @@ export function AnalyticsProvider({ measurementId, countryCode, children }: Anal
     if (stored) return stored;
 
     const initialCountry = countryCode ?? inferCountryFromNavigator();
-    return isGdprRegion(initialCountry) ? "pending" : "granted";
+    return (FORCE_CONSENT_BANNER || isGdprRegion(initialCountry)) ? "pending" : "granted";
   });
   const [isGtagReady, setIsGtagReady] = useState(false);
   const hasConfiguredRef = useRef(false);
