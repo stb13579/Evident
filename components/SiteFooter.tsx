@@ -10,7 +10,7 @@ export function SiteFooter() {
         <Link href="/terms" className="hover:text-ink dark:hover:text-white">
           Terms
         </Link>
-        <a href="mailto:hello@evident.app" className="hover:text-ink dark:hover:text-white">
+        <a href="mailto:hello@useevident.com" className="hover:text-ink dark:hover:text-white">
           Contact
         </a>
       </div>

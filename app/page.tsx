@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 
+import { useAnalytics } from "../components/AnalyticsProvider";
 import { SiteFooter } from "../components/SiteFooter";
 import { SiteHeader } from "../components/SiteHeader";
 
@@ -88,6 +89,7 @@ export default function Page() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionError, setSubmissionError] = useState("");
   const [showPricing, setShowPricing] = useState(false);
+  const { trackEvent } = useAnalytics();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -110,8 +112,18 @@ export default function Page() {
       setSubmitted(true);
       setEmail("");
       setWantsFeedback(false);
+
+      trackEvent("waitlist_submit", {
+        status: "success",
+        wants_feedback: wantsFeedback
+      });
     } catch (error) {
       setSubmissionError("Something went wrong. Please try again.");
+
+      trackEvent("waitlist_submit", {
+        status: "error",
+        wants_feedback: wantsFeedback
+      });
     } finally {
       setIsSubmitting(false);
     }
